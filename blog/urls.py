@@ -37,7 +37,11 @@ urlpatterns = [
     # path('post/<id>/delete/', post_delete, name='post-delete'),
     path('post/<pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('tinymce/', include('tinymce.urls')),
-    path('accounts/', include('allauth.urls'))
+    path('accounts/', include('allauth.urls')),
+    path('courses/',include('content.urls')),
+    path('shop/',include('shop.urls')),
+    path('donation/',include('donation.urls')),
+    path('payment/',include('payment.urls'))
 ]
 
 if settings.DEBUG:
