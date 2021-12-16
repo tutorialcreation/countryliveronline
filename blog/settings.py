@@ -15,7 +15,7 @@ SECRET_KEY = 'k*b$$!%hiswnhp2pad)6(u4x_g)r5w%@&zlv&@2hrz4#f3+#57'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '134.209.224.211']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,15 +33,18 @@ INSTALLED_APPS = [
     'donation',
     'shop',
     'users',
+    'evangelism',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "paypal.standard.ipn",
+    'payments',
 
     'crispy_forms',
-    'tinymce',
+    'tinymce.apps.TinyMCEConfig',
 
     'marketing',
     'posts'
@@ -173,9 +176,12 @@ TINYMCE_DEFAULT_CONFIG = {
     'statusbar': True,
 }
 
-MAILCHIMP_API_KEY = ''
-MAILCHIMP_DATA_CENTER = ''
-MAILCHIMP_EMAIL_LIST_ID = ''
+MAILCHIMP_API_KEY = env('MAILCHIMP_API_KEY')
+MAILCHIMP_DATA_CENTER = env('MAILCHIMP_DATA_CENTER')
+MAILCHIMP_EMAIL_LIST_ID = env('MAILCHIMP_EMAIL_LIST_ID')
+
+PAYPAL_RECEIVER_EMAIL = 'lunyamwi777@gmail.com'
+PAYPAL_TEST = True
 
 # Django Allauth
 
@@ -264,3 +270,20 @@ CORS_URLS_REGEX = r"^/api/.*$"
 STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
+
+
+PAYMENT_HOST = 'localhost:8000'
+PAYMENT_USES_SSL = False
+PAYMENT_MODEL = 'payment.Payment'
+PAYMENT_VARIANTS = {
+    'Paypal': ('payments.paypal.PaypalCardProvider', {
+        'client_id': env("PAYPAL_CLIENT"),
+        'secret': env("PAYPAL_SECRET")}), }
+
+# 'Paypal': ('payments.paypal.PaypalProvider', {
+#     'client_id': 'AV-yIwZ1ahGKCXg9gnHxxoZJ9wdA46Epb-LtSDWv6-af5ZB6oTLmE5K4tQSe9mDTMbyqS9k_tNlvgKrz',
+#     'secret': 'EEEuiKlO7wm2m0A1XmnHaRkUqHTNx8UFM1ckRPMk5HwHn7QbbPBAjOkv0zrs2f4wTLQiyetzxQ74g1ZT',
+#     'endpoint': 'https://api.sandbox.paypal.com',
+#     'capture': False})}
+
+LOGIN_REDIRECT_URL = '/users/~redirect/'

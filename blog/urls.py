@@ -37,11 +37,15 @@ urlpatterns = [
     # path('post/<id>/delete/', post_delete, name='post-delete'),
     path('post/<pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('tinymce/', include('tinymce.urls')),
+    path("users/", include("users.urls", namespace="users")),
     path('accounts/', include('allauth.urls')),
-    path('courses/',include('content.urls')),
-    path('shop/',include('shop.urls')),
-    path('donation/',include('donation.urls')),
-    path('payment/',include('payment.urls'))
+    path('courses/', include('content.urls')),
+    path('shop/', include('shop.urls')),
+    path('evangelism/', include('evangelism.urls', namespace='evangelism')),
+    path('donation/', include('donation.urls', namespace='donation')),
+    path('payment/', include('payment.urls')),
+    path('payments/', include('payments.urls')),
+    path('paypal/', include("paypal.standard.ipn.urls")),
 ]
 
 if settings.DEBUG:
