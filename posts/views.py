@@ -56,6 +56,11 @@ def get_category_count():
     return queryset
 
 
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "about.html")
+
+
 class IndexView(View):
     form = EmailSignupForm()
 
