@@ -33,7 +33,7 @@ class TeacherRegistration(View):
             user.is_teacher = True
             user.save()
             messages.success(
-                request, "Successfully registered as one of the Country Livers Training Institute Teachers")
+                request, "Successfully registered as one of the Country Livers Industrial Training Institute Teachers")
             return HttpResponseRedirect('/')
 
         return render(request, self.template_name, {'form': form})
@@ -59,7 +59,7 @@ class BusinessRegistration(View):
             user.is_business = True
             user.save()
             messages.success(
-                request, "You have successfully registered your business with Country Livers Training Institute")
+                request, "You have successfully registered your business with Country Livers Industrial Training Institute")
             return HttpResponseRedirect('/')
 
         return render(request, self.template_name, {'form': form})

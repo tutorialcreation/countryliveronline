@@ -105,6 +105,7 @@ class Class(BaseModel):
         CONSTRUCTIONWORK = 'CON', _('Construction Work')
         WOODWORK = 'WOO', _('Wood Work')
         METALWORK = 'MET', _('Metal Work')
+        MUSIC = 'MUS', _('Music')
         COOKING = 'COO', _('Cooking')
         CHEMICAL_MIXING = 'CHE', _('Oils and Soap Making')
         NATURAL_REMEDIES = 'NAT', _('Healing and Herbal Mixing')
