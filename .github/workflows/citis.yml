@@ -1,0 +1,61 @@
+name: Country Livers CI/CD pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8]
+        node-version: [14.x]
+    environment:
+      name: LAYLINKS
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        export CELERY_BROKER_URL=${{secrets.CELERY_BROKER_URL }}
+        export DATABASE_URL=${{secrets.DATABASE_URL }}
+        export DISABLE_COLLECTSTATIC=${{secrets.DISABLE_COLLECTSTATIC }}
+        export MAILCHIMP_API_KEY=${{secrets.MAILCHIMP_API_KEY }}
+        export MAILCHIMP_DATA_CENTER=${{secrets.MAILCHIMP_DATA_CENTER }}
+        export MAILCHIMP_EMAIL_LIST_ID=${{secrets.MAILCHIMP_EMAIL_LIST_ID }}
+        export PAYPAL_CLIENT=${{secrets.PAYPAL_CLIENT }}
+        export PAYPAL_SECRET=${{secrets.PAYPAL_SECRET }}
+        export PORT=${{secrets.PORT }}
+        export REDIS_TLS_URL=${{secrets.REDIS_TLS_URL }}
+        export REDIS_URL=${{secrets.REDIS_URL }}
+        export STRIPE_PUBLIC_KEY=${{secrets.STRIPE_PUBLIC_KEY }}
+        export STRIPE_SECRET_KEY=${{secrets.STRIPE_SECRET_KEY }}
+        export STRIPE_WEBHOOK_SECRET=${{secrets.STRIPE_WEBHOOK_SECRET }}
+        export EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+        export EMAIL_HOST_USER=${{secrets.EMAIL_HOST_USER }}
+        export EMAIL_HOST_PASSWORD=${{secrets.EMAIL_HOST_PASSWORD }}
+        export EMAIL_HOST=${{secrets.EMAIL_HOST }}
+        export EMAIL_USE_TLS=${{secrets.EMAIL_USE_TLS }}
+        export EMAIL_PORT=${{secrets.EMAIL_PORT }}
+
+        python manage.py test
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
