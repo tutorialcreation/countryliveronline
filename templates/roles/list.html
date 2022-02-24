@@ -2,9 +2,11 @@
 {% block content %}
 <hr />
 <div class="container">
+    {% if data == 'class' %}
     <a href="{% url 'roles:class_registration'%}">
         <button class="btn-btn-warning">Add Class</button>
     </a>
+    {% endif %}
     <hr>
     <table class="table">
         <thead class="thead-dark">
@@ -90,5 +92,6 @@
             {% endif %}
         </tbody>
     </table>
+    {% include 'pagination.html' %}
 </div>
 {% endblock %}

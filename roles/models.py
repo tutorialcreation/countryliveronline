@@ -1,35 +1,29 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from users.models import User
 from phonenumber_field.modelfields import PhoneNumberField
+
+from base.models import BaseModel
 from shop.models import Item
+from users.models import User
+
 # Create your models here.
-
-
-class BaseModel(models.Model):
-    # A timestamp representing when this object was created.
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    # A timestamp reprensenting when this object was last updated.
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
 
 
 class BusinessPerson(BaseModel):
     class BusinessType(models.TextChoices):
-        PUBLISHING = 'PUB', _('Books')
-        FARMING = 'FAR', _('Food')
-        TAILORING = 'TAI', _('Fabric Material')
-        CONSTRUCTION = 'CON', _('Construction Materials')
-        TIMBER = 'TIM', _('Timber')
-        METALS = 'MET', _('Metal')
-        CHEMICALS = 'CHE', _('Oils')
-        HERBS = 'HER', _('Herbs')
+        PUBLISHING = "PUB", _("Books")
+        FARMING = "FAR", _("Food")
+        TAILORING = "TAI", _("Fabric Material")
+        CONSTRUCTION = "CON", _("Construction Materials")
+        TIMBER = "TIM", _("Timber")
+        METALS = "MET", _("Metal")
+        CHEMICALS = "CHE", _("Oils")
+        HERBS = "HER", _("Herbs")
+
     # what are his/her business details? => (Business Details)
-    business_type = models.CharField(max_length=50, choices=BusinessType.choices,
-                                     default=BusinessType.TIMBER)
+    business_type = models.CharField(
+        max_length=50, choices=BusinessType.choices, default=BusinessType.TIMBER
+    )
     business_name = models.CharField(max_length=255, null=True, blank=True)
     business_description = models.TextField(max_length=1024)
     location = models.CharField(max_length=255, null=True, blank=True)
@@ -52,21 +46,19 @@ class BusinessPerson(BaseModel):
 
     # what are his/her account details? => (Account Details)
     class PaymentMode(models.TextChoices):
-        MPESA = 'MPESA', _('Mpesa')
-        BANK = 'BANK', _('Bank Account')
-    preferred_payment_mode = models.CharField(max_length=50, choices=BusinessType.choices,
-                                              default=PaymentMode.MPESA)
-    bank_account_number = models.CharField(
-        max_length=50, null=True, blank=True)
+        MPESA = "MPESA", _("Mpesa")
+        BANK = "BANK", _("Bank Account")
+
+    preferred_payment_mode = models.CharField(
+        max_length=50, choices=BusinessType.choices, default=PaymentMode.MPESA
+    )
+    bank_account_number = models.CharField(max_length=50, null=True, blank=True)
     bank_code = models.CharField(max_length=255, null=True)
     mpesa_till_number = models.CharField(max_length=10, null=True, blank=True)
-    mpesa_pay_bill_number = models.CharField(
-        max_length=10, null=True, blank=True)
+    mpesa_pay_bill_number = models.CharField(max_length=10, null=True, blank=True)
 
     # place him/her in the registry.
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.business_name}-{self.first_name}"
@@ -90,8 +82,7 @@ class Teacher(BaseModel):
     probation = models.BooleanField(default=False)
 
     # place him/her in the registry.
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.first_name
@@ -99,19 +90,21 @@ class Teacher(BaseModel):
 
 class Class(BaseModel):
     class ClassCategory(models.TextChoices):
-        BUSINESS = 'BUS', _('Business')
-        FARMING = 'FAR', _('Farming')
-        TAILORING = 'TAI', _('Tailoring')
-        CONSTRUCTIONWORK = 'CON', _('Construction Work')
-        WOODWORK = 'WOO', _('Wood Work')
-        METALWORK = 'MET', _('Metal Work')
-        MUSIC = 'MUS', _('Music')
-        COOKING = 'COO', _('Cooking')
-        CHEMICAL_MIXING = 'CHE', _('Oils and Soap Making')
-        NATURAL_REMEDIES = 'NAT', _('Healing and Herbal Mixing')
+        BUSINESS = "BUS", _("Business")
+        FARMING = "FAR", _("Farming")
+        TAILORING = "TAI", _("Tailoring")
+        CONSTRUCTIONWORK = "CON", _("Construction Work")
+        WOODWORK = "WOO", _("Wood Work")
+        METALWORK = "MET", _("Metal Work")
+        MUSIC = "MUS", _("Music")
+        COOKING = "COO", _("Cooking")
+        CHEMICAL_MIXING = "CHE", _("Oils and Soap Making")
+        NATURAL_REMEDIES = "NAT", _("Healing and Herbal Mixing")
+
     # what are the class details? => (Class Details)
-    class_category = models.CharField(max_length=50, choices=ClassCategory.choices,
-                                      default=ClassCategory.FARMING)
+    class_category = models.CharField(
+        max_length=50, choices=ClassCategory.choices, default=ClassCategory.FARMING
+    )
     name = models.CharField(max_length=255, null=True, blank=True)
 
     # who is teaching the class? => (Teachers Details)
@@ -134,12 +127,13 @@ class Class(BaseModel):
 
 class Student(BaseModel):
     class TypeOptions(models.TextChoices):
-        WORKSTUDY = 'WS', _('Work Study')
-        SELFSPONSORED = 'SSP', _('Self Sponsored')
+        WORKSTUDY = "WS", _("Work Study")
+        SELFSPONSORED = "SSP", _("Self Sponsored")
 
     # what are his/her personal details?
-    student_type = models.CharField(max_length=50, choices=TypeOptions.choices,
-                                    default=TypeOptions.WORKSTUDY)
+    student_type = models.CharField(
+        max_length=50, choices=TypeOptions.choices, default=TypeOptions.WORKSTUDY
+    )
     first_name = models.CharField(max_length=255, null=True, blank=True)
     middle_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
@@ -155,9 +149,7 @@ class Student(BaseModel):
     )
 
     # place him/her in the registry
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     # analysis parameter
     completed_assignment = models.BooleanField(default=False)
