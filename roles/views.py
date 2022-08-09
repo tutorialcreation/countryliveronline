@@ -78,7 +78,7 @@ class BusinessRegistration(View):
             messages.success(
                 request,
                 "You have successfully registered your business with "
-                + "Country Livers Industrial Training Institute",
+                + "country livers",
             )
             return HttpResponseRedirect("/")
 

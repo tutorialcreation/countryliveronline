@@ -4,5 +4,5 @@ from . import views
 app_name = "lands"
 
 urlpatterns = [
-    path("", views.AddLand, name="add_land"),
+    path("", views.AddLand.as_view(), name="add_land"),
 ]
