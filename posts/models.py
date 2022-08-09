@@ -46,6 +46,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     # content = HTMLField()
     content = models.TextField()
+    gdocs_link = models.URLField(null=True, blank=True)
     # comment_count = models.IntegerField(default = 0)
     # view_count = models.IntegerField(default = 0)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)

@@ -48,6 +48,7 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
     path('payments/', include('payments.urls')),
     path('paypal/', include("paypal.standard.ipn.urls")),
+    path('lands/', include("lands.urls", namespace='lands'))
 ]
 
 if settings.DEBUG:
