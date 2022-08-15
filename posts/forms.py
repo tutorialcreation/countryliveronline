@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'overview', 'content', 'thumbnail',
+        fields = ('title', 'overview', 'content', 'gdocs_link', 'thumbnail',
                   'categories', 'featured', 'previous_post', 'next_post')
 
 

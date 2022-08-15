@@ -45,7 +45,7 @@ class Post(models.Model):
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     # content = HTMLField()
-    content = models.TextField()
+    content = models.TextField(null=True, blank=True)
     gdocs_link = models.URLField(null=True, blank=True)
     # comment_count = models.IntegerField(default = 0)
     # view_count = models.IntegerField(default = 0)
