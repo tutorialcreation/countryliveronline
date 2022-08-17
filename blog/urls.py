@@ -4,20 +4,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from posts.views import (
-    index,
-    search,
-    post_list,
-    post_detail,
-    post_create,
-    post_update,
-    post_delete,
     IndexView,
+    SearchView,
     PostListView,
     PostDetailView,
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
-    AboutView
+    AboutView,
+
 )
 from marketing.views import email_list_signup
 
@@ -28,7 +23,7 @@ urlpatterns = [
     # path('blog/', post_list, name='post-list'),
     path('about/', AboutView.as_view(), name='about'),
     path('blog/', PostListView.as_view(), name='post-list'),
-    path('search/', search, name='search'),
+    path('search/', SearchView.as_view(), name='search'),
     path('email-signup/', email_list_signup, name='email-list-signup'),
     # path('create/', post_create, name='post-create'),
     path('create/', PostCreateView.as_view(), name='post-create'),

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from django.core.exceptions import ObjectDoesNotExist
 from .forms import CommentForm, PostForm
 from .models import Post, Author, PostView
 from marketing.forms import EmailSignupForm
@@ -19,41 +19,29 @@ def get_author(user):
     return None
 
 
-class SearchView(View):
-    def get(self, request, *args, **kwargs):
-        queryset = Post.objects.all()
-        query = request.GET.get('q')
-        if query:
-            queryset = queryset.filter(
-                Q(title__icontains=query) |
-                Q(overview__icontains=query)
-            ).distinct()
-        context = {
-            'queryset': queryset
-        }
-        return render(request, 'search_results.html', context)
-
-
-def search(request):
-    queryset = Post.objects.all()
-    query = request.GET.get('q')
-    if query:
-        queryset = queryset.filter(
-            Q(title__icontains=query) |
-            Q(overview__icontains=query)
-        ).distinct()
-    context = {
-        'queryset': queryset
-    }
-    return render(request, 'search_results.html', context)
-
-
 def get_category_count():
     queryset = Post \
         .objects \
         .values('categories__title') \
         .annotate(Count('categories__title'))
     return queryset
+
+
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        queryset = Post.objects.all()
+        query = request.GET.get('q')
+        try:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(overview__icontains=query)
+            ).distinct()
+        except ObjectDoesNotExist as error:
+            messages.error(request, error)
+        context = {
+            'queryset': queryset
+        }
+        return render(request, 'search_results.html', context)
 
 
 class AboutView(View):
