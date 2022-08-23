@@ -42,6 +42,7 @@ urlpatterns = [
     path('donation/', include('donation.urls', namespace='donation')),
     path('payment/', include('payment.urls')),
     path('payments/', include('payments.urls')),
+    path('clients/', include('clients.urls')),
     path('paypal/', include("paypal.standard.ipn.urls")),
     path('lands/', include("lands.urls", namespace='lands'))
 ]
