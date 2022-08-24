@@ -1,7 +1,9 @@
+import os
 from django.shortcuts import render
 from django.views.generic import View
 import requests
 from bs4 import BeautifulSoup
+from .helpers.googlemapsapi import GoogleMapsApi
 
 # Create your views here.
 
@@ -61,7 +63,7 @@ class YellowPagesScrapperView(View):
 
 class FacebookScrapperView(View):
     def get(self, request, *args, **kwargs):
-        token = "EAAIh96UqoXMBAIZCprokyrdA8rVsnGLKKQCPB9t4pJNzm7p4tQ6GqLGfcZAvDt4ngZBddR7HrYuEOoW10oromn4C8HQuLhCQhRVqw72HpFN9TVTdzSRXmvHPJ7nZBbxS7gJ6KMNuCk4PLZBZCY56JbulKgiAYepYXYyBNSphERoCz5u5QwjbLoVzR3x3oGVoZCJou3ZBRiBjmAZDZD"
+        token = os.environ.get('FACEBOOK_TOKEN', '')
         url = f"https://graph.facebook.com/search?q=restaurant&type=place&center=40.714623,-74.006605&distance=16000&access_token={token}"
 
         r = requests.get(
@@ -72,3 +74,15 @@ class FacebookScrapperView(View):
 
     def post(self, request, *args, **kwargs):
         return render(request, 'clients/facebook.html')
+
+
+class GoogleScrapperView(View):
+    def get(self, request, *args, **kwargs):
+        api_key = os.environ.get('MAPS_KEY', '')
+        gps = GoogleMapsApi(api_key)
+        restaurants_nairobi = gps.search_clients('restaurants brooklyn')
+        print(restaurants_nairobi)
+        sp = gps.scrap_links(
+            "https://www.google.com/maps/search/restaurants+in+nairobi/@-1.2822889,36.8076246,15z/data=!3m1!4b1")
+        print(sp.find_all('div'))
+        return render(request, 'clients/google.html')
