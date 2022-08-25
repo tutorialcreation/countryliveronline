@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import View
 import requests
 from bs4 import BeautifulSoup
-from .helpers.googlemapsapi import GoogleMapsApi
+from .helpers.googlemapscrapper import GoogleMapScrapper
 
 # Create your views here.
 
@@ -78,11 +78,7 @@ class FacebookScrapperView(View):
 
 class GoogleScrapperView(View):
     def get(self, request, *args, **kwargs):
-        api_key = os.environ.get('MAPS_KEY', '')
-        gps = GoogleMapsApi(api_key)
-        restaurants_nairobi = gps.search_clients('restaurants brooklyn')
+        gps = GoogleMapScrapper()
+        restaurants_nairobi = gps.get_details('restaurants', 'Nairobi')
         print(restaurants_nairobi)
-        sp = gps.scrap_links(
-            "https://www.google.com/maps/search/restaurants+in+nairobi/@-1.2822889,36.8076246,15z/data=!3m1!4b1")
-        print(sp.find_all('div'))
         return render(request, 'clients/google.html')

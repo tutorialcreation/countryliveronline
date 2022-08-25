@@ -1,0 +1,62 @@
+[
+    {
+      "place": "Nairobi, Kenya",
+      "latitude": -1.286389,
+      "longitude": 36.817223
+    },
+    {
+      "place": "Bungoma, Kenya",
+      "latitude": 0.569525,
+      "longitude": 34.558376
+    },
+    {
+      "place": "Kisii, Kenya",
+      "latitude": -0.680482,
+      "longitude": 34.777061
+    },
+    {
+      "place": "Eldoret, Kenya",
+      "latitude": 0.514277,
+      "longitude": 35.269779
+    },
+    {
+      "place": "Naivasha, Kenya",
+      "latitude": -0.717178,
+      "longitude": 36.431026
+    },
+    {
+      "place": "Malindi, Kenya",
+      "latitude": -3.219186,
+      "longitude": 40.11689
+    },
+    {
+      "place": "Kitui, Kenya",
+      "latitude": -1.375081,
+      "longitude": 37.995213
+    },
+    {
+      "place": "Kikuyu, Kenya",
+      "latitude": -1.254337,
+      "longitude": 36.68166
+    },
+    {
+      "place": "Nakuru, Kenya",
+      "latitude": -0.303099,
+      "longitude": 36.080025
+    },
+    {
+      "place": "Kitale Kenya",
+      "latitude": 1.019089,
+      "longitude": 35.002304
+    },
+    {
+      "place": "Mombasa, Kenya",
+      "latitude": -4.04374,
+      "longitude": 39.658871
+    },
+    {
+      "place": "Kisumu, Kenya",
+      "latitude": -0.091702,
+      "longitude": 34.767956
+    }
+   ]
