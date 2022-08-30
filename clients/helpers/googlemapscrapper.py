@@ -17,13 +17,14 @@ from selenium.webdriver.chrome.options import Options
 from django.conf import settings
 import logging
 from time import sleep
+import re
 
 
 class GoogleMapScrapper:
     def __init__(self) -> None:
         self.base_url = "https://www.google.com/maps/search/{0}/@{1},{2},16z"
         self.json_file_path = settings.BASE_DIR + "/clients/data/"
-        self.delay = 5
+        self.delay = 3
 
     def get_city(self, city: str, json_file: str):
         df = pd.read_json(self.json_file_path + json_file)
@@ -79,10 +80,9 @@ class GoogleMapScrapper:
 
         html = driver.find_element(
             By.TAG_NAME, 'html').get_attribute('innerHTML')
-        phone_number = driver.find_element(
-            By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[9]/div[7]/button/div[1]/div[2]/div[1]')
+
         driver.quit()
-        return html, phone_number
+        return html
 
     def get_details(self, search: str, city: str):
         html = self.get_html(search, city)
@@ -103,7 +103,7 @@ class GoogleMapScrapper:
 
         details = []
         for unscrapped_link in links:
-            html, phone_number = self.get_client_details(
+            html = self.get_client_details(
                 unscrapped_link['link'])
             soup = BeautifulSoup(html)
             results = soup.find_all('div', {'class': 'm6QErb'})
@@ -124,12 +124,17 @@ class GoogleMapScrapper:
                 except Exception as err:
                     num_reviews = None
                 try:
-                    phone_number = phone_number.text
+                    unprocessed_phone_numbers = re.findall(
+                        r'\d{4} \d{6}', str(item))
+                    processed_phone_numbers = list(
+                        filter(lambda x: x, unprocessed_phone_numbers))
+                    phone_number = processed_phone_numbers[0]
                 except Exception as err:
                     phone_number = None
 
                 details.append({'name': name, 'rating': rating, 'num_revs': num_reviews,
                                 'phone_number': phone_number})
                 print(details)
+                # print(results)
         temp_df = pd.DataFrame(details)
         return temp_df

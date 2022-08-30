@@ -8,6 +8,7 @@ from .models import Signup
 import json
 import requests
 
+
 MAILCHIMP_API_KEY = settings.MAILCHIMP_API_KEY
 MAILCHIMP_DATA_CENTER = settings.MAILCHIMP_DATA_CENTER
 MAILCHIMP_EMAIL_LIST_ID = settings.MAILCHIMP_EMAIL_LIST_ID
