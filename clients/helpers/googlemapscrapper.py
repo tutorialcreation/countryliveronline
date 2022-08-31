@@ -133,6 +133,5 @@ class GoogleMapScrapper:
                 details.append({'name': name, 'rating': rating, 'num_revs': num_reviews,
                                 'phone_number': phone_number})
                 print(details)
-                # print(results)
         temp_df = pd.DataFrame(details)
         return temp_df
